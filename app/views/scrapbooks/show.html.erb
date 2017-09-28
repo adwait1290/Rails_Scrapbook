@@ -1,0 +1,90 @@
+<% content_for :js do %>
+<script>$(document).ready(function(){$('.carousel').carousel({indicators:true},{noWrap:true});});
+$(document).ready(function(){
+      $('.slider').slider();
+    });</script>
+<% end %>
+<%= content_for :top do %>
+
+
+<div class="row">
+    <div class="col s12 m6 offset-m3 l4 offset-l4">
+        <div class="center-align white-text">
+            <h4 style="border-radius:50px; padding:2%" class="header center black-text purple darken-2">Title: <%= @scrapbook.title %>
+            </h4>
+
+
+            <h5 style="border-radius:50px; padding:1%" class="header center black-text yellow darken-2">Description: <%= @scrapbook.description %>
+            </h5>
+            <h6 style="border-radius:50px; padding:1%" class="header center white-text blue darken-2">Location: <%= @scrapbook.location %> </h6>
+            <h6 style="border-radius:50px; padding:1%" class="header center white-text green darken-2">By: <a style="color:white" href="/users/<%=@scrapbook.user.id %>"><%= @scrapbook.user.first_name %> <%= @scrapbook.user.last_name %></a></h6>
+            <% if @scrapbook.user == current_user %>
+            <br />
+            <%= link_to scrapbook_path(@scrapbook.id), method: :delete, class: "btn waves-effect waves-light white-text red" do %>
+            Delete
+            <i class="material-icons prefix">do_not_disturb</i>
+            <% end %>
+            <% else %> 
+            <% end %>
+        </div>
+    </div>
+    <div class="carousel transparent col s12" style="min-height:600px; min-width:80vw;z-index:99999">
+<% @book_attachments.each do |a| %>
+
+        <div class="carousel-item" >
+            <div class="card transparent">
+                <div class="card-image">
+                    <img class="materialboxed hoverable" src="<%= a.image_url %>">
+                </div>
+                <div class="card-content center" style="padding:0">
+                <% if @scrapbook.user == @current_user %>
+
+                        <%= link_to edit_book_attachment_path(a) do %>
+                        <i class="material-icons green white-text">edit</i>
+                        <% end %>
+                        <%= link_to  book_attachment_path(a), method: :delete, data: {confirm: "Are you sure? "} do %>
+                        <i class="material-icons red white-text">delete_forever</i>
+                        <% end %>
+                        <% end %>
+                    <div class="card-action" style="padding:0">
+                        
+                        <% unless a.users.include?(current_user) %>
+                        <form action = "/likes" method = "post">
+                            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                            <input type="hidden" name="like[book_attachment_id]" value = "<%= a.id %>">
+                            <button type="submit" name="Like" class="waves-effect waves-light btn green"><span class="new badge green valign" data-badge-caption="Like"><%= a.likes.count %>
+                            <i class="material-icons">star_border</i></span>
+                            </button> 
+                        </form>
+                        <% else %>
+                        <form action = "/likes/<%= Like.where(user: current_user, book_attachment: a).first.id %>" method = "post">
+                            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                            <input type="hidden" name="_method" value="delete">
+                            <button type="submit" name="Unlike" class="btn red">
+                            <span class="new badge red valign" data-badge-caption="Unlike"><%= a.likes.count %>
+                            <i class="material-icons">star</i></span>
+                            </button>
+                        </form>
+                        <% end %>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <% end %>
+    </div>  <!--  End of Carousel -->
+
+
+</div>
+    <hr />
+
+<% end %>
+</div>
+</div>
+</div>
+</div>
+<script>
+
+</script>

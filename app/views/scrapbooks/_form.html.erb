@@ -1,0 +1,32 @@
+
+<%= form_for(@scrapbook, :url => scrapbooks_create_path, :method => :post, :html => { :multipart => true}, :class => 'col s12') do |f| %>
+	<div class="input-field col s12">
+	<%= label_tag(:title) %><br>
+	<%= f.text_field :title, :class => "validate white-text" %>
+	</div>
+	<div class="input-field col s12">
+	<%= label_tag(:description) %><br>
+	<%= f.text_field :description, :class => "validate white-text"  %>
+	</div>
+		<div class="input-field col s12">
+	<%= label_tag(:location) %><br>
+	<%= f.text_field :location , :class => "validate white-text" %>
+	</div>
+
+	<%= f.fields_for :book_attachments do |p| %>
+	<div class="file-field input-field col s12">
+	<div class="img-responsive">
+		<%= image_tag p.object.image.url(:small) %>
+	
+	<%= p.file_field :image, :multiple => true, name: "scrapbook[book_attachments][image][]",class: "file-path" %>
+	
+	</div>
+	<div class="file-path-wrapper">
+        <input class="file-path validate" type="text" placeholder="Upload">
+      </div>
+	<% end %>
+	<div class="actions">
+		<button type="submit" value="Login" class="btn btn waves-effect green waves-light"><i class="material-icons right">send</i>Go!</button>
+	</div>
+ 
+	<% end %>

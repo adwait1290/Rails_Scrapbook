@@ -1,0 +1,29 @@
+// Place all the styles related to the Scrapbook controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+body {
+	background-color:black;
+	background-image:"<%= asset_path 'gradient-bg.png' %>";
+}
+.placehb{
+	margin-top:10px;
+	height:100px;
+	width:200px;
+	background:red;
+	display:inline-block;
+}
+.backc {
+	border-radius:5px;
+	background:#bfbfbf;
+	overflow-y: auto;
+	height:230px;
+	text-align:center;
+}
+.nav>li>a:hover,
+.nav>li>a:focus {
+    text-decoration: none;
+    background-color: #560000;
+}
+.background{
+	background-color:#bfbfbf;
+}

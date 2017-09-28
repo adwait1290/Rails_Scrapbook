@@ -1,0 +1,42 @@
+<%= form_for(@current_user, :url => users_path, :method => :put, :html => { :multipart => true}, :class => 'col s12') do |f| %>
+	<div class="input-field col s12">
+	<%= label_tag(:first_name) %><br>
+	<%= f.text_field :first_name, placeholder: @current_user.first_name %>
+	</div>
+	<div class="input-field col s12">
+	<%= f.label :last_name %><br>
+	<%= f.text_field :last_name, placeholder: @current_user.last_name %>
+	</div>
+	<div class="input-field col s12">
+	<%= f.label :city %><br>
+	<%= f.text_field :city, placeholder: @current_user.city %>
+	</div>
+	<div class="input-field col s12">
+	<%= f.label :state %><br>
+	<%= f.text_field :state, placeholder: @current_user.state%><br>
+	</div>
+	<%= f.fields_for :user_attachments do |p| %>
+
+	
+	<% if @current_user.user_attachments.count > 0 %>
+	<%= image_tag @current_user.user_attachments.first.image.url(:small) %>
+	<% else %>
+	<% end %>
+
+	<div class="file-field input-field col s12">
+	<div class="btn center">
+		<span>Profile Pic</span>
+		
+	
+	<%= p.file_field :image,:multiple => true, name: "user[user_attachments][image][]", class: "file-path", placeholder: "Upload one or more profile pictures" %>
+	</div>
+	<div class="file-path-wrapper">
+        <input class="file-path validate" type="text" placeholder="Upload one or more files">
+      </div>
+
+	<% end %>
+	<div class="actions">
+		<button type="submit" value="Login" class="btn btn waves-effect green waves-light"><i class="material-icons right">send</i>Update</button>
+	</div>
+
+	<% end %>

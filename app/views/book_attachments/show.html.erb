@@ -1,0 +1,20 @@
+<%= content_for :top do %>
+<p id="notice center-align"><%= notice %></p>
+
+<p>
+  <strong>Scrapbook:</strong>
+  <%= @book_attachment.scrapbook_id %>
+</p>
+
+<p>
+  <strong>Image:</strong>
+  <%= image_tag @book_attachment.image_url(:small) %>
+</p>
+<% if @book_attachment.user == @current_user %>
+<%= link_to 'Edit', edit_book_attachment_path(@book_attachment.id) %> | 
+<%= link_to 'Destroy', book_attachment_path(@book_attachment.id), method: :delete, data: { confirm: 'Are you sure?' } %> |
+<% else %>
+<% end %>
+<%= link_to 'Back', scrapbook_path(@book_attachment.scrapbook_id) %>
+<hr />
+<% end %>

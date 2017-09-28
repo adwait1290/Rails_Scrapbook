@@ -1,0 +1,481 @@
+<% content_for :js do %>
+<script>$(document).ready(function(){$('.carousel').carousel({indicators:true},{noWrap:true});});
+$(document).ready(function(){
+      $('.slider').slider();
+    });</script>
+<% end %>
+<%= content_for :top do %>
+<div class="main-component">
+
+
+<div class="row">
+   
+    <div class="col s12 m8 offset-m2 l6 offset-l3 center-align">
+    <h2 style="border-radius:50px; padding:10px" class="header center black-text orange darken-2 light">My Scrapbooks</h2>
+    <%= link_to  new_scrapbook_path, class: 'white-text btn waves-effect waves-light red' do %>
+    Add New<i class="material-icons left">add</i>
+  <% end %>
+  </div>
+    <div class="col s12 m8 offset-m2 l6 offset-l3 carousel grey darken-4" style="min-height:475px;border: 1px solid gray;">
+
+    <% @scrapbooks.each do |s| %>
+        <div class="carousel-item">
+
+            <a href="/scrapbooks/<%=s.id%>">
+            <div class="card transparent">
+       
+                <div class="card-image">
+                    <img class="hoverable"
+               src="<%= s.book_attachments.first.image_url(:small)%>">
+                </div>
+                <div class="card-content">
+                    <span class="white-text center-align truncate">
+                    <%= s.title %></span>
+            </a>
+                    <div class="card-action center">
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% end %>
+
+    </div>
+</a> 
+    
+
+
+<div class="col s12 m8 offset-m2 l6 offset-l3">
+
+
+<h2 style="border-radius:50px; padding:10px" class="header center black-text blue darken-2 light">Favorites</h2>
+</div>
+
+<div class="col s12 m8 offset-m2 l6 offset-l3 grey darken-4 " style="border: 1px solid gray;display:flex; justify-content:space-around;align-items:baseline">
+<% if @favbooks.count > 0 %>
+ <% @favbooks.each do |f| %>
+ <div style="margin-top:10px" class="book">
+        
+        <div class="card transparent">
+        
+          <div class="card-image">
+          <a href="/scrapbooks/<%=f.id%>">
+          <img class="responsive-img hoverable" style="margin-left:auto;margin-right:auto;width: 250px;
+height: 250px;" src="<%= f.book_attachments.first.image_url %>"></a>
+          </div>
+          
+        <div class="card-content">
+        <span class="card-title white-text center-align truncate"><%= f.title %> </span>
+          <div class="card-action">
+
+               
+      <% unless f.users.include?(@current_user) %>
+    <form action = "/favorites" method = "post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <input type="hidden" name="favorite[scrapbook_id]" value = "<%= f.id %>">
+      <button type="submit" name="Favorite" class="waves-effect waves-light btn red"><span class="new badge red valign" data-badge-caption="Favorite"><%= f.favorites.count %>
+      <i class="material-icons">favorite_border</i></span>
+    </button> 
+    </form>
+  <% else %>
+    <form action = "/favorites/<%= Favorite.where(user: current_user, scrapbook: f).first.id%>" method = "post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <input type="hidden" name="_method" value="delete">
+      <button type="submit" name="Unfavorite" class="waves-effect waves-light btn red">
+      <span class="new badge red valign" data-badge-caption="Unfavorite"><%= f.favorites.count %>
+      <i class="material-icons">favorite</i></span>
+      </button>
+    </form>
+  
+
+        <% end %>
+        </div>
+       
+
+        
+        </div>
+       
+         
+     
+
+   
+ </div>
+ </div>
+        <% end %>
+       <% else %>
+        <p class="center-align grey-text text-lighten-1 valign" style="padding-top:25%">You have no favorited scrapbooks</p>
+        <% end %>
+
+        </div>
+        
+        
+<div class="col s12 m8 offset-m2 l6 offset-l3">
+<h2 style="border-radius:50px; padding:10px" class="header center black-text yellow darken-2 light">All Scrapbooks</h2>
+</div>
+<div class="col s12 m8 offset-m2 l6 offset-l3 grey darken-4" style="min-height:475px;border: 1px solid gray;display:flex; justify-content:space-around;align-items:baseline">
+
+<% @allbooks.each do |s| %>
+<% if @favbooks.include?(s) == false %>
+<% if @scrapbooks.include?(s) == false %>
+    <div class="book" style="margin-top:10px;">
+        
+        <div class="card transparent">
+           
+            
+            <div class="card-image">
+            <a href="/scrapbooks/<%=s.id%>">
+            <img class="responsive-img" style="margin-left:auto;margin-right:auto;width: 250px;
+height: 250px;" src="<%= s.book_attachments.first.image_url(:small)%>">
+          </a>
+            </div>
+            <div class="card-content">
+                <span class="card-title white-text center-align truncate">  <%= s.title %></span>
+                <div class="card-action center">
+                   
+            <% if s.user == @current_user %>
+    
+                    <%= link_to edit_scrapbook_path(s), :class => "waves-effect waves-light white-text green btn-floating hoverable" do %>
+                    <i class="tiny material-icons">edit</i>
+                    <% end %>
+                    <%= link_to scrapbook_path(s), method: :delete, class: "waves-effect white-text waves-light red btn-floating hoverable", data: { confirm: 'Are you sure?' } do %>
+                    <i class="material-icons">delete_forever</i>
+                    <% end %>
+                    
+                    <% end %>
+        
+            <% unless s.users.include?(@current_user) %>
+                    <form action = "/favorites" method = "post">
+                        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                        <input type="hidden" name="favorite[scrapbook_id]" value = "<%= s.id %>">
+                        <button type="submit" name="Favorite" class="waves-effect waves-light btn red"><span class="new badge red valign" data-badge-caption="Favorite"><%= s.favorites.count %>
+                        <i class="material-icons">favorite_border</i></span>
+                        </button> 
+                    </form>
+            <% else %>
+                    <form action = "/favorites/<%= Favorite.where(user: current_user, scrapbook: s).first.id%>" method = "post">
+                        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                        <input type="hidden" name="_method" value="delete">
+                        <button type="submit" name="Unfavorite" class="btn red">
+                        <span class="new badge red valign" data-badge-caption="Unfavorite"><%= s.favorites.count %>
+                        <i class="material-icons">favorite</i></span>
+                        </button>
+                    </form>
+            <% end %> 
+                    
+                
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <% end %>
+    <% end %>
+    <% end %>
+</div>
+</div>
+<br>
+
+<script type="text/javascript">
+(function(){
+
+  /* Private variables */
+
+  var overlay = $('<div id="galleryOverlay">'),
+    slider = $('<div id="gallerySlider">'),
+    prevArrow = $('<a id="prevArrow"></a>'),
+    nextArrow = $('<a id="nextArrow"></a>'),
+    overlayVisible = false;
+
+
+  /* Creating the plugin */
+
+  $.fn.touchTouch = function(){
+
+    var placeholders = $([]),
+      index = 0,
+      allitems = this,
+      items = allitems;
+
+    // Appending the markup to the page
+    overlay.hide().appendTo('body');
+    slider.appendTo(overlay);
+
+    // Creating a placeholder for each image
+    items.each(function(){
+
+      placeholders = placeholders.add($('<div class="placeholder">'));
+    });
+
+    // Hide the gallery if the background is touched / clicked
+    slider.append(placeholders).on('click',function(e){
+
+      if(!$(e.target).is('img')){
+        hideOverlay();
+      }
+    });
+
+    // Listen for touch events on the body and check if they
+    // originated in #gallerySlider img - the images in the slider.
+    $('body').on('touchstart', '#gallerySlider img', function(e){
+
+      var touch = e.originalEvent,
+        startX = touch.changedTouches[0].pageX;
+
+      slider.on('touchmove',function(e){
+
+        e.preventDefault();
+
+        touch = e.originalEvent.touches[0] ||
+            e.originalEvent.changedTouches[0];
+
+        if(touch.pageX - startX > 10){
+
+          slider.off('touchmove');
+          showPrevious();
+        }
+
+        else if (touch.pageX - startX < -10){
+
+          slider.off('touchmove');
+          showNext();
+        }
+      });
+
+      // Return false to prevent image
+      // highlighting on Android
+      return false;
+
+    }).on('touchend',function(){
+
+      slider.off('touchmove');
+
+    });
+
+    // Listening for clicks on the thumbnails
+    items.on('click', function(e){
+
+      e.preventDefault();
+
+      var $this = $(this),
+        galleryName,
+        selectorType,
+        $closestGallery = $this.parent().closest('[data-gallery]');
+
+      // Find gallery name and change items object to only have
+      // that gallery
+
+      //If gallery name given to each item
+      if ($this.attr('data-gallery')) {
+
+        galleryName = $this.attr('data-gallery');
+        selectorType = 'item';
+
+      //If gallery name given to some ancestor
+      } else if ($closestGallery.length) {
+
+        galleryName = $closestGallery.attr('data-gallery');
+        selectorType = 'ancestor';
+
+      }
+
+      //These statements kept seperate in case elements have data-gallery on both
+      //items and ancestor. Ancestor will always win because of above statments.
+      if (galleryName && selectorType == 'item') {
+
+        items = $('[data-gallery='+galleryName+']');
+
+      } else if (galleryName && selectorType == 'ancestor') {
+
+        //Filter to check if item has an ancestory with data-gallery attribute
+        items = items.filter(function(){
+
+                return $(this).parent().closest('[data-gallery]').length;
+
+              });
+
+      }
+
+      // Find the position of this image
+      // in the collection
+      index = items.index(this);
+      showOverlay(index);
+      showImage(index);
+
+      // Preload the next image
+      preload(index+1);
+
+      // Preload the previous
+      preload(index-1);
+
+    });
+
+    // If the browser does not have support
+    // for touch, display the arrows
+    if ( !("ontouchstart" in window) ){
+      overlay.append(prevArrow).append(nextArrow);
+
+      prevArrow.click(function(e){
+        e.preventDefault();
+        showPrevious();
+      });
+
+      nextArrow.click(function(e){
+        e.preventDefault();
+        showNext();
+      });
+    }
+
+    // Listen for arrow keys
+    $(window).bind('keydown', function(e){
+
+      if (e.keyCode == 37) {
+        showPrevious();
+      }
+
+      else if (e.keyCode==39) {
+        showNext();
+      }
+
+      else if (e.keyCode==27) { //esc
+        hideOverlay();
+      }
+
+    });
+
+
+    /* Private functions */
+
+
+    function showOverlay(index){
+      // If the overlay is already shown, exit
+      if (overlayVisible){
+        return false;
+      }
+
+      // Show the overlay
+      overlay.show();
+
+      setTimeout(function(){
+        // Trigger the opacity CSS transition
+        overlay.addClass('visible');
+      }, 100);
+
+      // Move the slider to the correct image
+      offsetSlider(index);
+
+      // Raise the visible flag
+      overlayVisible = true;
+    }
+
+    function hideOverlay(){
+
+      // If the overlay is not shown, exit
+      if(!overlayVisible){
+        return false;
+      }
+
+      // Hide the overlay
+      overlay.hide().removeClass('visible');
+      overlayVisible = false;
+
+      //Clear preloaded items
+      $('.placeholder').empty();
+
+      //Reset possibly filtered items
+      items = allitems;
+    }
+
+    function offsetSlider(index){
+
+      // This will trigger a smooth css transition
+      slider.css('left',(-index*100)+'%');
+    }
+
+    // Preload an image by its index in the items array
+    function preload(index){
+
+      setTimeout(function(){
+        showImage(index);
+      }, 1000);
+    }
+
+    // Show image in the slider
+    function showImage(index){
+
+      // If the index is outside the bonds of the array
+      if(index < 0 || index >= items.length){
+        return false;
+      }
+
+      // Call the load function with the href attribute of the item
+      loadImage(items.eq(index).attr('href'), function(){
+        placeholders.eq(index).html(this);
+      });
+    }
+
+    // Load the image and execute a callback function.
+    // Returns a jQuery object
+
+    function loadImage(src, callback){
+
+      var img = $('<img>').on('load', function(){
+        callback.call(img);
+      });
+
+      img.attr('src',src);
+    }
+
+    function showNext(){
+
+      // If this is not the last image
+      if(index+1 < items.length){
+        index++;
+        offsetSlider(index);
+        preload(index+1);
+      }
+
+      else{
+        // Trigger the spring animation
+        slider.addClass('rightSpring');
+        setTimeout(function(){
+          slider.removeClass('rightSpring');
+        },500);
+      }
+    }
+
+    function showPrevious(){
+
+      // If this is not the first image
+      if(index>0){
+        index--;
+        offsetSlider(index);
+        preload(index-1);
+      }
+
+      else{
+        // Trigger the spring animation
+        slider.addClass('leftSpring');
+        setTimeout(function(){
+          slider.removeClass('leftSpring');
+        },500);
+      }
+    }
+  };
+
+})(jQuery);
+  setTimeout(function(){
+
+    // Initialize the gallery
+    $('.thumbs a').touchTouch();
+    console.log("HI");
+},4000);
+</script>
+<% end %>
+</div>
+</div>
+</div>
+</div>
+
+  

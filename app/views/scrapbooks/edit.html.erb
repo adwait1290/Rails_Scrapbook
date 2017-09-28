@@ -1,0 +1,44 @@
+<%= content_for :top do %>
+<div class="row">
+<div class="col s12 m8 l6 offset-m2 offset-l3">
+	<form action="/scrapbooks/<%= @scrapbook.id %>" method="PUT" class="col s12 white-text">
+		<input type="hidden" name="scrapbook[id]" value="<%= @scrapbook.id %>">
+
+		<div class="input-field col s12">
+			<i class="material-icons prefix">account_circle</i>
+			<input type="text" class="validate white-text" name="scrapbook[title]" value="<%= @scrapbook.title %>">
+			<label for="title">Title</label>
+		
+		</div>
+		<div class="input-field col s12">
+			<i class="material-icons prefix">account_circle</i>
+			<input type="text" class="validate white-text" name="scrapbook[description]" value="<%= @scrapbook.description %>">
+			<label for="description">Description</label>
+		
+		</div>
+		<div class="input-field col s12">
+			<i class="material-icons prefix">account_circle</i>
+			<input type="text" class="validate white-text" name="scrapbook[location]" value="<%= @scrapbook.location %>">
+			<label for="location">Location</label>
+		
+		</div>
+
+		<% @scrapbook.book_attachments.each do |p| %>
+		<div class="file-field input-field col s12" >
+	<div class="img-responsive" >
+		<%= link_to edit_book_attachment_path(p.id), class: "file-path" do %><%= image_tag p.image.url(:small) %>
+		<div class="file-path-wrapper">
+        <input class="file-path validate" type="text" placeholder="Edit">
+      </div><% end %>
+	</div>
+	
+		</div>
+
+<% end %>
+<div class="actions center">
+		<button type="submit" value="Login" class="btn btn waves-effect green waves-light"><i class="material-icons right">send</i>Update!</button>
+	</div>
+</div>
+
+
+<% end %>

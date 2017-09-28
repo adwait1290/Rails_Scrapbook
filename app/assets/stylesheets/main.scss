@@ -1,0 +1,209 @@
+@import "materialize";
+@import url('https://fonts.googleapis.com/css?family=Exo+2');
+// Scaffolding
+*, *:before, *:after { box-sizing: border-box; font-family: 'Exo 2', sans-serif; }
+body { background-color: black; color: #888; font-size: 14px; font-family: Verdana, Arial, sans-serif; height:100vh;line-height: 20px; min-height:90vh; }
+a { text-decoration: none; transition: all 0.3s linear 0s; }
+
+.area {
+    display: flex; flex-flow: row wrap; margin-left: auto; margin-right: auto;
+    @media (min-width: 768px) { width: 750px; }
+    @media (min-width: 992px) { width: 970px; }
+    @media (min-width: 1200px) { width: 1140px; }
+}
+
+// Navigation component
+// ----------
+
+// Variables
+$navbar-height:              64px;
+$navbar-background:          #000;
+$navbar-border:              #ddd;
+
+$navbar-collapse-breakpoint: 768px;
+
+$navbar-item-font-size:      14px;
+$navbar-item-border-width:   4px;
+$navbar-item-color:          #fff;
+$navbar-item-active-color:   #333;
+$navbar-item-border:         transparent;
+$navbar-item-active-border:  #673ab7;
+$form-color:                 #020202;
+
+.navbar-component {
+    background-color: orange;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16), 0 2px 10px rgba(0, 0, 0, 0.12);
+    
+    .navbar {
+        margin-bottom:0;
+        justify-content: space-between;
+        width:100%;
+    }
+    header {
+    text-align:center;
+    }
+
+    // Component
+
+.navbar {
+    opacity: 0.75;
+    display:flex;
+    justify-content: flex-end;
+    white-space: nowrap; 
+    flex-flow: row nowrap;
+    background:orange;
+    // Brand
+    & > .brand {
+
+        
+        height:64px;
+        width:320px;
+        align-self:center;
+        margin-left:auto;
+        margin-right:auto;
+        font-size: 16px;
+
+        @media (max-width: 1150px){
+            height:45px;
+            width:225px;
+            margin-left:auto;
+            margin-right:auto;
+        }
+        @media (max-width: 390px){
+            height: 25px;
+            width: 125px;
+        }
+       
+    }
+
+
+    // Toggle button
+    & > .toggle {
+        border: 0;
+        background-color: transparent;
+        outline: none;
+        border: 0;
+        display: inline-block;
+        background-color: transparent;
+        background-image: none;
+        vertical-align: middle;
+        text-align: center;
+        white-space: nowrap;
+        cursor: pointer;
+        touch-action: manipulation;
+        user-select: none;
+        padding: round(($navbar-height - 20) / 2);
+
+        @media (min-width: $navbar-collapse-breakpoint) {
+            display: none;
+        }
+    }
+
+    & > .toggle > .icon {
+        position: relative;
+        margin-top: 8px;
+        margin-bottom: 8px;
+
+        &,
+        &:before,
+        &:after {
+            display: block;
+            width: 24px;
+            height: 3px;
+            transition: background-color 0.3s linear, transform 0.3s linear;
+            background-color: white;
+        }
+
+        &:before, &:after { position: absolute; content: ""; }
+        &:before { top: -8px; }
+        &:after { top: 8px; }
+    }
+
+    & > .toggle.-active > .icon {
+        background-color: transparent;
+    
+        &:before { transform: translateY(8px) rotate(45deg); }
+        &:after { transform: translateY(-8px) rotate(-45deg); }
+    }
+
+    // List of items
+    & > .list {
+        display: none;
+        flex-flow: row nowrap;
+        align-items: center;
+        white-space: nowrap;
+        padding-left:5vw;
+        padding-right:5vw;
+        @media (min-width: $navbar-collapse-breakpoint) {
+            display: flex;
+            justify-content:flex-end;
+        }
+
+        @media (max-width: $navbar-collapse-breakpoint) {
+            position: fixed;
+            top: $navbar-height;
+            left: 0;
+            width: 100%;
+            z-index:1;
+            overflow-y: hidden;
+            overflow-x: auto;
+            border-top: 1px solid $navbar-border;
+            background-color: $navbar-background;
+        }
+        @media (max-width: 1080px) {
+            padding-left:0px;
+            padding-right:0px;
+        }
+    
+
+        &.-on {
+            display: flex;
+        }
+    
+    }
+    & > .list > .item {
+        display: block;
+        flex-shrink: 0;
+        height: $navbar-height;
+        line-height: $navbar-height;
+        padding-left: 2vw;
+        padding-right: 2vw;
+        text-transform: uppercase;
+        color: $navbar-item-color;
+        font-size: $navbar-item-font-size;
+        
+    }
+    //  
+    & > .list > .item.-link {
+        line-height: $navbar-height + $navbar-item-border-width;
+        color: $navbar-item-color;
+        border-bottom: $navbar-item-border-width solid $navbar-item-border;
+
+    //on hover
+        &.-active,
+        &:hover,
+        &:focus {
+            color: pink;
+            border-bottom-color: yellow;
+        }
+        
+    }
+}
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus
+input:-webkit-autofill, 
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 1px solid green;
+  background-clip: content-box;
+  -webkit-text-fill-color: green;
+  -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+  transition: background-color 5000s ease-in-out 0s;
+}

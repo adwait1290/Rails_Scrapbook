@@ -1,0 +1,7 @@
+h1 Add more images
+
+= form_for @gallery, url: gallery_images_path(@gallery), method: :post do |f| # use customized url endpoint 
+  .field
+    = f.file_field :images, multiple: true
+
+  .actions = f.submit "Add More Images"

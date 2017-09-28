@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ScrapBook</title>
+    <%= csrf_meta_tags %>
+    <%= javascript_include_tag :modernizr %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+   
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+    .brand {
+        min-height: 34px;
+        width:150px;
+        background-image: url("<%= asset_path 'logo.png' %>");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-color:orange;
+        background-position:center;
+        background-blend-mode:multiply;
+        display:block;
+        z-index:999;
+        }
+      .brand:hover {
+        min-height: 34px;
+        width:150px;
+        background-image: url("<%= asset_path 'logo.png' %>");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-color:yellow;
+        background-position:center;
+        background-blend-mode:multiply;
+        display:block;
+        z-index:999;
+      }
+    </style>
+  </head>
+ 
+
+
+<body style="padding:0px">
+    <% if @current_user %>
+<div class="navbar-component" style="height:64px;">
+
+   
+      <!-- Class `area` is a container -->
+      <div class="navbar area">
+        <!-- Logo -->
+        <a href="#" class="brand"></a>
+        <!-- List of links -->
+        <nav role="navigation" id="navigation" class="list black">
+          <a href="/scrapbooks" class="item -link">Home</a>
+          <a href="/friends" class="item -link">Friends</a>
+          <a href="/logout" class="item -link">Logout</a>
+          <%= link_to "My Profile", edit_users_path(@current_user), { :class=>"item -link" } %>
+          
+          
+
+        </nav>
+        <!-- Button to toggle the display menu  -->
+        <button data-collapse data-target="#navigation" class="toggle">
+          <!-- Hamburger icon -->
+          <span class="icon"></span>
+        </button>
+      </div>
+    </div>
+    <% end %>
+    <div class="row">
+    <div class="col s12 center header white-text" style="width:100%;padding:0;margin:0">
+  <h1>   <% if flash[:error] %>
+<%= flash[:error] %>
+<% end %>
+
+<% if flash[:notice] %>
+<%= flash[:notice] %>
+<% end %>
+</h1>
+          <div class="row">
+            <div class="col s12" style="width:100vw;margin:0;padding:0">
+            <%= yield :top %>
+            </div> 
+            </div>
+            <div class="row">
+            <div class="col m6 s12 left">
+            <%= yield :left %>
+            </div>
+            <div class="col m6 s12 right">
+            <%= yield :right %>
+            </div>
+            </div>
+    <footer class="page-footer black lighten-1">
+
+
+          <div class="footer-copyright">
+            <div class="container">
+            © 2017 ScrapBook, by Adwait
+            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            </div>
+          </div>
+        </footer>
+     
+
+
+</body>
+<script>'use strict';(function(){var getTriggerElement=function(el){var isCollapse=el.getAttribute('data-collapse');if(isCollapse!==null){return el;}else{var isParentCollapse=el.parentNode.getAttribute('data-collapse');return(isParentCollapse!==null)?el.parentNode:undefined;}};var collapseClickHandler=function(event){var triggerEl=getTriggerElement(event.target);if(triggerEl===undefined){event.preventDefault();return false;}var targetEl=document.querySelector(triggerEl.getAttribute('data-target'));if(targetEl){triggerEl.classList.toggle('-active');targetEl.classList.toggle('-on');}};if(document.getElementsByClassName('toggle')[0]==null){return false;}else{document.getElementsByClassName('toggle')[0].addEventListener('click',collapseClickHandler,false)};})(document,window);</script>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+ <%= yield :js %>
+</html>

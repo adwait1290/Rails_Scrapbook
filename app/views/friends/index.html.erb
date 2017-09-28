@@ -1,0 +1,86 @@
+<%= content_for :title do %>
+	<title>Friends</title>
+<% end %>
+
+<%= content_for :left do %>
+	<h4>Add a new Friend here </h4>
+	<% if @users %>
+	<% @users.each do |a| %>
+
+	<% if a.id != current_user.id and @user.friends.include?(a) == false and @user.friendss.include?(a) == false and @user.pending_friends.include?(a) == false %>
+	<div class="col s6">
+	<ul>
+		<li class="card-panel grey darken-4 z-depth-1 white-text" style="height:85px">
+		<div class="valign-wrapper">
+		<% if a.user_attachments.count > 0 %><div class="col s3"><%= image_tag a.user_attachments.first.image.url(:thumb), class: "circle responsive" %></div><% else %><div class="circle responsive red-text" ><i class="material-icons">filter</i></div><% end %><div class="col s9"><a class="white-text" href="/users/<%= a.id %>"><%=a.first_name%> <%=a.last_name %></a><%= link_to  friends_path(friend_id: a.id), method: :post, class: 'waves-effect waves-light btn-floating pink white-text' do %>
+		Add Friend
+      <i class="material-icons right">person_add
+</i>
+      </div></div><% end %></li>
+
+	</ul></div>
+	<% end %>
+	<% end %>
+	<% end %>
+<% end %>
+<%= content_for :top do %>
+	<h4>Pending Friend Requests</h4>
+	<% if @user.pending_friends.count > 0 %>
+	<% @user.pending_friends.each do |c| %>
+	<% if c.id != current_user.id %>
+	<div class="col s6">
+	<ul>
+		<li class="card-panel grey darken-4 z-depth-1 white-text" style="height:85px">
+		<div class="valign-wrapper">
+		<% if c.user_attachments.count > 0 %><div class="col s3"><%= image_tag c.user_attachments.first.image.url(:thumb), class: "circle responsive" %></div><% else %><div class="circle responsive red-text" ><i class="material-icons">filter</i></div><% end%><div class="col s9"><a class="white-text" href="/users/<%= c.id %>"><%=c.first_name%> <%=c.last_name %></a><%= link_to friend_path(id: c.id), method: :put , class: 'waves-effect waves-light white-text btn-flat lime' do %>
+		Accept
+<i class="material-icons right">people_outline
+</i>
+      <% end %>
+
+      <%= link_to friends_path(id: c.id), method: :delete, class: 'waves-effect waves-light white-text btn-flat red' do %>
+      Decline
+<i class="material-icons right">do_not_disturb
+</i>
+      </div></div><% end %></li>
+	</ul></div>
+	<% end %>
+	<% end %>
+<% else %>
+	<p>You have no new requests.
+	<% end %>
+	<% if @user.requested_friendships.count > 0 %>
+	<h4>Sent Requests</h4>
+	<% @user.requested_friendships.each do |d| %>
+	<ul>
+		<li><a class="white-text" href="/users/<%= d.id %>"><%=d.first_name%> <%=d.last_name %></a></li>
+		</ul>
+	<% end %>
+	<% else %>
+	<% end %>
+<% end %>
+<%= content_for :right do %>
+
+
+
+	<h4>Your current Friends</h4>
+
+	<% @user.friendss.each do |r| %>
+	<% if r.id != current_user.id %>
+		<div class="col s6">
+	<ul>
+		<li class="card-panel grey darken-4 z-depth-1" style="height:85px">
+		<div class="valign-wrapper">
+		<% if r.user_attachments.count > 0 %><div class="col s2"><%= image_tag r.user_attachments.first.image.url(:small), class: "circle responsive-img" %></div><% else %><div class="circle responsive-img red-text" ><i class="material-icons">filter</i></div><% end %><div class="col s4"><a class="white-text" href="/users/<%= r.id %>"><%=r.first_name%> <%=r.last_name %></a></div><div class="col s6">
+
+      <%= link_to friend_path(id: r.id), method: :delete, class: "waves-efect waves-light white-text btn red" do %>
+      
+      	Delete<i class="material-icons fix">delete</i>
+      	<% end %></div></div>
+      </li>
+
+	</ul></div>
+	<% end %>
+	<% end %>
+
+<% end %>

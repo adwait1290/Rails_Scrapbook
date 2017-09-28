@@ -1,0 +1,131 @@
+<% content_for :js do %>
+<script>$(document).ready(function(){$('.carousel').carousel({indicators:true},{noWrap:true});});
+$(document).ready(function(){
+      $('.slider').slider();
+    });</script>
+<% end %>
+<%= content_for :top do %>
+<div class="row">
+<div class="col s12">
+<div id="profile-page-header" class="card">
+
+                <div class="card-content purple darken-3">
+                <div class="valign-wrapper">
+                	<div class="col s2">
+                	<% if @user.user_attachments.count > 0 %>
+                	<%= image_tag @user.user_attachments.first.image.url(:thumb), class: "circle responsive" %>
+                	<% end %>
+                	</div>
+                    <div class="col s3">                        
+                        <h4 class="card-title white-text text-darken-4"><%= @user.first_name %> <%= @user.last_name %></h4>
+                    
+                    </div>
+                    <div class="col s2 center-align">
+                        <h4 class="card-title white-text text-darken-4"><%= @user.scrapbooks.count %></h4>
+                        <p class="medium-small white-text">Scrapbooks</p>                        
+                    </div>
+                    <div class="col s2 center-align">
+                        <h4 class="card-title white-text text-darken-4"><%= @user.scrapbooks_favorited.count %></h4>
+                        <p class="medium-small white-text">Favorites</p>                        
+                    </div>                    
+    				<div class="col s2 center-align">
+                        <h4 class="card-title white-text text-darken-4"><%= @user.friendss.count %></h4>
+                        <p class="medium-small white-text">Friends</p>                        
+                    </div>          
+                  </div>
+
+                </div>
+</div>
+</div>
+</div>
+<div class="row">
+<h2 class="header center white-text light">Scrapbooks</h2> 
+<div class="col s12 m8 offset-m2 l6 offset-l3 carousel grey darken-4" style="min-height:600px;border: 1px solid gray;">
+  
+    <% @user.scrapbooks.each do |s| %>
+    <div class="carousel-item" >
+
+        <a href="/scrapbooks/<%=s.id%>">
+        <div class="card transparent">
+      
+          <div class="card-image">
+          <img class="hoverable"  src="<%= s.book_attachments.first.image_url(:small)%>">
+          </div>
+         <div class="card-content">
+        <span class="white-text center-align truncate">
+         <%= s.title %></span>
+        
+             </a>
+ 
+                     </div>
+    
+        </div>
+        </div>
+
+  <% end %>
+    </div>
+    
+    
+</div>
+<div class="row">
+<div class="col s12">
+<h2 class="header center white-text light">Favorites</h2>
+</div>
+<div class="col s12 m8 offset-m2 l6 offset-l3 grey darken-4" style="min-height:475px; border:1px solid gray; display:flex; justify-content:space-around;align-items:baseline;">
+ <% @user.scrapbooks_favorited.each do |f| %>
+ <div class="book" style="margin-top:10%;">
+        
+        <div class="card transparent">
+       
+        <a href="/scrapbooks/<%=f.id%>">
+          <div class="card-image">
+          <img class="responsive-img hoverable" style="max-height:125px; width:auto;margin-left:auto;margin-right:auto" src="<%= f.book_attachments.first.image_url(:small)%>">
+          </a>
+          
+        
+        </div>
+       <div class="card-content">
+        <span class="white-text  hoverable center-align truncate"><%= f.title %></span>
+        <div class="card-action center">
+          <%= link_to  scrapbook_path(f), class: "waves-effect waves-light white-text btn-floating hoverable" do %>
+          <i class="material-icons">slideshow</i>
+          <% end %>
+        <% if f.user == @current_user %>
+    
+          <%= link_to edit_scrapbook_path(f), :class => "waves-effect waves-light white-text green btn-floating hoverable" do %>
+          <i class="tiny material-icons">edit</i>
+          <% end %>
+          <%= link_to scrapbook_path(f), method: :delete, class: "waves-effect white-text waves-light red btn-floating hoverable", data: { confirm: 'Are you sure?' } do %>
+          <i class="material-icons">delete_forever</i>
+          <% end %>
+      <% unless f.users.include?(@current_user) %>
+    <form action = "/favorites" method = "post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <input type="hidden" name="favorite[scrapbook_id]" value = "<%= f.id %>">
+      <button type="submit" name="Favorite" class="waves-effect waves-light btn red"><span class="new badge red valign" data-badge-caption="Favorite"><%= f.favorites.count %>
+      <i class="material-icons">favorite_border</i></span>
+    </button> 
+    </form>
+  <% else %>
+    <form action = "/favorites/<%= Favorite.where(user: current_user, scrapbook: f).first.id%>" method = "post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <input type="hidden" name="_method" value="delete">
+      <button type="submit" name="Unfavorite" class="btn red">
+      <span class="new badge red valign" data-badge-caption="Unfavorite"><%= f.favorites.count %>
+      <i class="material-icons">favorite</i></span>
+      </button>
+    </form>
+  <% end %> 
+
+        <% end %>
+
+        
+
+        <% end %>
+        </div>
+        </div>
+        </div>
+        </div>
+
+
+<% end %>

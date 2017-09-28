@@ -1,0 +1,229 @@
+<%= content_for :title do %>
+
+	<title>Login/Registration</title>
+<% end %>
+<%= content_for :top do %>
+<div class="row" style="">
+    <div class="col s12">
+        <div class="card transparent">
+            <div class="card-image">
+            <img class="responsive-img" style="filter:saturate(5);opacity:.5;width:80vw; height:auto;margin-left:auto;margin-right:auto; border-radius:50%" src="<%= asset_path 'photo1.jpg' %>">
+            <h1 class="center-align white-text fancy" style="text-shadow: 0px 2px 2px rgba(255, 255, 255, 0.4);-moz-box-shadow:    inset 0 0 10px #000000;
+   -webkit-box-shadow: inset 0 0 10px #000000;
+   box-shadow:         inset 0 0 10px #000000;">Scrapbook</h1>
+   <p class="para flow-text" > Lorem ipsum dolor sit amet, pro id eirmod offendit. Mutat inimicus eu mel. Ea sed dolore efficiendi, semper alterum volumus vix ei. Eos reque tamquam an. Aliquip referrentur vix eu, in debitis adipiscing nec. Mei et novum saepe iracundia, no wisi libris duo.
+
+Habeo primis propriae et eum. Pro ei epicuri scaevola nominati, ea mea minim nonumy postea. Eos sint dolorem in, ei eam unum soleat tempor. Erroribus definiebas nec in, ad mundi volumus quo. Primis minimum an qui, aliquip prompta imperdiet duo id. Ex blandit urbanitas mediocritatem sed.</p>
+<div id="about-scroll" class="scroll" >
+        <div class="center-align white-text">
+                <a href="#forms" class="smoothScroll down"><i class="material-icons white-text large">arrow_drop_down_circle</i></a>
+                    
+        </div>
+        <p style="visibility:hidden" id="scrollHelper"></p>
+    </div>
+<style>
+
+body {
+/* Padding for spacing */
+  padding: 35px;
+  background-color:black;
+  background-image: url("<%= asset_path 'gradient-bg.png' %>");
+            background-position: center;
+            background-repeat: no-repeat;
+}
+.fancy {
+  border-width: 5px 0 5px;
+  border-style: solid;
+  border-image: url(http://www.w3.org/TR/css3-background/border.png) 27 fill stretch;
+  border-radius:5%;
+  position:absolute;
+  top:15%;
+  left:25%;
+}
+.para {
+    position:absolute;
+    top:45%;
+    left:45%;
+    width:40vw;
+    font-size:1.25rem;
+    color:white;
+    line-height:1.5;
+} 
+@media only screen and (min-width:320px){
+    .para {
+
+        font-size:.4rem;
+    }
+}
+@media only screen and (min-width:786px){
+    .para {
+        font-size:.9rem;
+    }
+}
+@media only screen and (min-width:1250px){
+    .para {
+        font-size:1.25em;
+    }
+}
+
+
+.down {
+    position:absolute;
+    top:80%;
+    left:50%;
+
+}
+</style>
+</div>
+</div>
+<hr class="white-text" />
+
+</div>
+      
+<% end %>
+<%= content_for :left do %>
+<span id="forms"></span>
+<div class="row">
+<div class="col s12">
+		<h3 class="center-align white-text">Registration</h3></div></div>
+		<div class="row white-text green darken-3" style="border-radius:30px; margin:0; padding:1%">
+    		<form autocomplete="off" action="/users/create" method="post" class="col s12">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                    <input type="hidden" name="_method" value="create_user">
+                <div class="row">
+        			
+                    <div class="input-field col s6">
+            		  <i class="material-icons prefix">account_circle</i>
+                		<input type="text" id="first_name" class="validate" id="First Name" name="user[first_name]">
+                		<label for="first_name">First Name:</label>
+                    </div>
+                    <div class="profile-attribute-display input-field col s6">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input type="text" id="last_name" class="validate" id="Last Name" name="user[last_name]">
+                        <label for="last_name">Last Name:</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                    <i class="material-icons prefix">email</i>
+                        <input id="email" type="email" class="validate" name="user[email]" autocomplete="off" />
+                        <label for="email">Email: </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                    <i class="material-icons prefix">lock</i>
+                        <input id="password" type="password" class="validate" name="user[password]" autocomplete="off" />
+                        <label for="password">Password: </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                    <i class="material-icons prefix">location_city</i>
+                        <input id="city" type="text" class="validate" name="user[city]">
+                        <label for="city">City: </label>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">landscape</i>
+                        <input id="state" type="text" class="validate" name="user[state]">
+                        <label for="state">State: </label>
+                    </div>
+                </div>
+<button type="submit" class="btn waves-effect red waves-light"  name="action">Register<i class="material-icons right">send</i>
+                        </button>
+        
+
+                
+        	</form>
+    	</div>
+
+	<% end %>
+
+<%= content_for :right do %>
+<div class="row">
+<div class="col s12">
+        <h3 class="center-align white-text">Login</h3></div></div>
+
+<div class="row white-text purple darken-4" style="border-radius:30px; margin:0; padding:1%" >
+<form action="/sessions/create" method="post" class="col s12" >
+<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>">
+                <div class="row">
+                    <div class="input-field col s12">
+                    <i class="material-icons prefix">email</i>
+                        <input id="email" type="email" class="validate" name="user[email]" autocomplete="off" />
+                        <label for="email">Email: </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                    <i class="material-icons prefix">lock</i>
+                        <input id="password" type="password" class="validate" name="user[password]" autocomplete="off" />
+                        <label for="password">Password: </label>
+                    </div>
+                </div>
+<button type="submit" value="Login" class="btn btn waves-effect green waves-light"  name="action"><i class="material-icons right">send</i>Login
+</button>
+</form>
+</div>
+
+<% end %>
+<% content_for :js do %>
+<script>
+    anchorSmoothScroll = function() {
+    this.scrollTo = function(eID) {
+
+        // This scrolling function 
+        // is from http://www.itnewb.com/tutorial/Creating-the-Smooth-Scroll-Effect-with-JavaScript
+        
+        var startY = currentYPosition();
+        var stopY = elmYPosition(eID);
+        var distance = stopY > startY ? stopY - startY : startY - stopY;
+        if (distance < 100) {
+            scrollTo(0, stopY); return;
+        }
+        var speed = Math.round(distance / 30);
+        if (speed >= 20) speed = 20;
+        var step = Math.round(distance / 25);
+        var leapY = stopY > startY ? startY + step : startY - step;
+        var timer = 0;
+        if (stopY > startY) {
+            for ( var i=startY; i<stopY; i+=step ) {
+                setTimeout("window.scrollTo(0, "+leapY+")", timer * speed);
+                leapY += step; if (leapY > stopY) leapY = stopY; timer++;
+            } return;
+        }
+        for ( var i=startY; i>stopY; i-=step ) {
+            setTimeout("window.scrollTo(0, "+leapY+")", timer * speed);
+            leapY -= step; if (leapY < stopY) leapY = stopY; timer++;
+        }
+        
+        function currentYPosition() {
+            // Firefox, Chrome, Opera, Safari
+            if (self.pageYOffset) return self.pageYOffset;
+            // Internet Explorer 6 - standards mode
+            if (document.documentElement && document.documentElement.scrollTop)
+                return document.documentElement.scrollTop;
+            // Internet Explorer 6, 7 and 8
+            if (document.body.scrollTop) return document.body.scrollTop;
+            return 0;
+        }
+        
+        function elmYPosition(eID) {
+            var elm = document.getElementById(eID);
+            var y = elm.offsetTop;
+            var node = elm;
+            while (node.offsetParent && node.offsetParent != document.body) {
+                node = node.offsetParent;
+                y += node.offsetTop;
+            } return y;
+        }
+
+    };
+    };
+
+</script>
+<% end %>
+
